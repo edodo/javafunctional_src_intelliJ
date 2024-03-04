@@ -1,6 +1,7 @@
 package lambdasinaction._01lambda.basic1;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class FilteringApples {
 
@@ -11,8 +12,30 @@ public class FilteringApples {
 						new Apple(155, "green"),
 						new Apple(120, "red"));
 
-		//filter method 호출
+		//1. filter method 호출 - Anonymous Inner class
+		filter(inventory, new ApplePredicate<Apple>() {
+			@Override
+			public boolean test(Apple apple) {
+				return apple.getColor().equals("red");
+			}
+		}).forEach(new Consumer<Apple>() {
 
+			@Override
+			public void accept(Apple apple) {
+				System.out.println("필터링된 Apple = " + apple);
+			}
+		});
+
+	}
+
+	public static List<Apple> filter(List<Apple> inventory, ApplePredicate<Apple> p) {
+		List<Apple> result = new ArrayList<>();
+		for (Apple apple : inventory) {
+			if (p.test(apple)) {
+				result.add(apple);
+			}
+		}
+		return result;
 	}
 
 	public static List<Apple> filterGreenApples(List<Apple> inventory) {
@@ -45,33 +68,24 @@ public class FilteringApples {
 		return result;
 	}
 
-	public static List<Apple> filter(List<Apple> inventory, ApplePredicate p) {
-		List<Apple> result = new ArrayList<>();
-		for (Apple apple : inventory) {
-			if (p.test(apple)) {
-				result.add(apple);
-			}
-		}
-		return result;
+	@FunctionalInterface
+	interface ApplePredicate<T> {
+		public boolean test(T a);
 	}
 
-	interface ApplePredicate {
-		public boolean test(Apple a);
-	}
-
-	static class AppleWeightPredicate implements ApplePredicate {
+	static class AppleWeightPredicate implements ApplePredicate<Apple> {
 		public boolean test(Apple apple) {
 			return apple.getWeight() > 150;
 		}
 	}
 
-	static class AppleColorPredicate implements ApplePredicate {
+	static class AppleColorPredicate implements ApplePredicate<Apple> {
 		public boolean test(Apple apple) {
 			return "green".equals(apple.getColor());
 		}
 	}
 
-	static class AppleRedAndHeavyPredicate implements ApplePredicate {
+	static class AppleRedAndHeavyPredicate implements ApplePredicate<Apple> {
 		public boolean test(Apple apple) {
 			return "red".equals(apple.getColor()) && apple.getWeight() > 150;
 		}
