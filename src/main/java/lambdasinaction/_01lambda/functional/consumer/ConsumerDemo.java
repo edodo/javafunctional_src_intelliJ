@@ -22,14 +22,20 @@ public class ConsumerDemo {
 		inventory.add(new Apple(150,"red"));
 		
 		//1. using anonymous inner class
-		
-		
-		
-		//2. lambda expression
+        printAppleInfo(inventory, new Consumer<Apple>() {
+            @Override
+            public void accept(Apple apple) {
+                System.out.println("1. Apple Info " + apple);
+            }
+        });
 
 		
+		//2. lambda expression
+        printAppleInfo(inventory, apple -> System.out.println("2. Apple Info " + apple));
+
 		
 		//3. Method Reference
+        printAppleInfo(inventory, System.out::println);
 		
 	}
 	
