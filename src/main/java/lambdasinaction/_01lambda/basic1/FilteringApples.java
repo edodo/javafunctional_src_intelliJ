@@ -26,6 +26,14 @@ public class FilteringApples {
 			}
 		});
 
+		//2. filter method 호출 - Lambda Expression
+		filter(inventory,apple -> apple.getWeight() > 150)
+				.forEach(apple -> System.out.println("필터링된 Apple = " + apple));
+
+		//3. filter method 호출 - Method Reference
+		filter(inventory,apple -> apple.getColor().equals("green"))
+				//.forEach(apple -> System.out.println(apple)); //람다식
+				.forEach(System.out::println);  // 위 람다식을 Method Reference로 대체함
 	}
 
 	public static List<Apple> filter(List<Apple> inventory, ApplePredicate<Apple> p) {
