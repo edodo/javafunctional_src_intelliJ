@@ -14,9 +14,18 @@ public class OperatorExample {
 
 	public static void main(String[] args) {
 		// 최대값 얻기
-		
-		
+		int maxvalue = maxOrMin((n1, n2) -> {
+			if (n1 >= n2) return n1;
+			else return n2;
+		});
+		System.out.println("1. maxValue = " + maxvalue) ;
+		maxvalue = maxOrMin((n1, n2) -> Math.max(n1, n2));
+		System.out.println("3. maxValue = " + maxvalue) ;
+		maxvalue = maxOrMin(Math::max);
+		System.out.println("2. maxValue = " + maxvalue) ;
+
 		// 최소값 얻기
-		
+		int minValue = maxOrMin(Math::min);
+		System.out.println("1. minValue = " + minValue) ;
 	}
 }
