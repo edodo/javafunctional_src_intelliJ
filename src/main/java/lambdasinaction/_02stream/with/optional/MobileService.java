@@ -10,5 +10,4 @@ public class MobileService {
 					 .map(ScreenResolution::getWidth)
 					 .orElse(0);
 	}
-
 }

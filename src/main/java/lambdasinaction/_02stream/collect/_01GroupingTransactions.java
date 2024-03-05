@@ -2,7 +2,7 @@ package lambdasinaction._02stream.collect;
 
 import java.util.*;
 
-import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.*;
 
 public class _01GroupingTransactions {
 
@@ -22,6 +22,8 @@ public class _01GroupingTransactions {
     public static void main(String ... args) {
         groupImperatively();
         groupFunctionally();
+        groupByCurrencySumOfValue();
+        groupByCurrencyGrater5000();
 
     }
 
@@ -43,10 +45,24 @@ public class _01GroupingTransactions {
     //Java8 groupingBy 사용
     private static void groupFunctionally() {
 
-
+        Map<Currency, List<Transaction>> currencyListMap = transactions.stream()
+                //.collect(groupingBy(tx -> tx.getCurrency()));
+                .collect(groupingBy(Transaction::getCurrency));
 
     }
+    public static void groupByCurrencySumOfValue() {
+        Map<Currency, Double> currencyDoubleMap = transactions.stream()
+                .collect(groupingBy(Transaction::getCurrency,
+                        summingDouble(Transaction::getValue)));
+        System.out.println("currencyDoubleMap = " + currencyDoubleMap);
+    }
 
+    public static void groupByCurrencyGrater5000() {
+        Map<Currency, Map<Boolean, List<Transaction>>> partitionMap = transactions.stream()
+                .collect(groupingBy(Transaction::getCurrency,
+                        partitioningBy(tx -> tx.getValue() >= 5000)));
+        System.out.println("partitionMap = " + partitionMap);
+    }
     public static class Transaction {
         private final Currency currency;
         private final double value;
